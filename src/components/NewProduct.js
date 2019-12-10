@@ -1,14 +1,27 @@
 import React, { useState } from 'react';
 
+// Redux
+import { createNewProductAction } from '../actions/productsActions';
+import { useDispatch } from 'react-redux';
+
 const NewProduct = () => {
 
     // state
     const [name, saveName] = useState('');
     const [price, savePrice] = useState('');
 
+    // create new product
+    const dispatch = useDispatch();
+    const addProduct = (product) => dispatch(createNewProductAction(product))
+
     // add new product
     const submitNewProduct = e => {
         e.preventDefault();
+
+        addProduct({
+            name,
+            price
+        });
 
         // form validate
         if (name.trim() === '' || price.trim() === '') {
@@ -19,11 +32,8 @@ const NewProduct = () => {
         // if pass the validation
 
 
-        // create new product
-
-
         // redirect
-    } 
+    }
 
     return (
         <div className="row justify-content-center mt-5">
