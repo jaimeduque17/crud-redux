@@ -1,14 +1,19 @@
 {
-    "books": [
-        {
-            "id": 1,
-            "name": "Learning Redux",
-            "price": 30
-        },
-        {
-            "id": 2,
-            "name": "Learning React",
-            "price": 40
-        }
-    ]
+  "books": [
+    {
+      "id": 1,
+      "name": "Learning Redux",
+      "price": 30
+    },
+    {
+      "id": 2,
+      "name": "Learning React",
+      "price": 40
+    },
+    {
+      "name": "Learning Redux",
+      "price": "30",
+      "id": 3
+    }
+  ]
 }
