@@ -49,9 +49,29 @@ export const addProductError = error => ({
 export function getProductsAction() {
     return (dispatch) => {
         dispatch(getProductsBegin());
+
+        // check the API
+        clientAxios.get('/books')
+            .then(response => {
+                // console.log(response);
+                dispatch(downloadProductsSuccess(response.data));
+            })
+            .catch(error => {
+                console.log(error);
+                dispatch(downloadProductsError());
+            })
     }
 }
 
 export const getProductsBegin = () => ({
     type: DOWNLOAD_PRODUCTS
+})
+
+export const downloadProductsSuccess = (products) => ({
+    type: DOWNLOAD_PRODUCTS_SUCCESS,
+    payload: products
+})
+
+export const downloadProductsError = () => ({
+    type: DOWNLOAD_PRODUCTS_ERROR
 })

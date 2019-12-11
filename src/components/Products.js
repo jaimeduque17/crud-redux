@@ -15,7 +15,7 @@ const Products = () => {
             dispatch(getProductsAction())
         )
         uploadProducts();
-    });
+    }, []);
 
     // access the state
     const loading = useSelector(state => state.products.loading);
