@@ -15,3 +15,15 @@ export const startValidation = () => {
         type: VALIDATE_FORM
     }
 }
+
+export const successValidation = () => {
+    return {
+        type: VALIDATE_FORM_SUCCESS
+    }
+}
+
+export const errorValidation = () => {
+    return {
+        type: VALIDATE_FORM_ERROR
+    }
+}

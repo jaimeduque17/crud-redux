@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 
 // Redux
 import { createNewProductAction } from '../actions/productsActions';
-import { validateFormAction } from '../actions/validationActions';
-import { useDispatch } from 'react-redux';
+import { validateFormAction, successValidation, errorValidation } from '../actions/validationActions';
+import { useDispatch, useSelector } from 'react-redux';
 
-const NewProduct = () => {
+const NewProduct = ({history}) => {
 
     // state
     const [name, saveName] = useState('');
@@ -15,6 +15,13 @@ const NewProduct = () => {
     const dispatch = useDispatch();
     const addProduct = (product) => dispatch(createNewProductAction(product));
     const validateForm = () => dispatch(validateFormAction());
+    const validationSuccess = () => dispatch(successValidation());
+    const validationError = () => dispatch(errorValidation());
+
+    // useState is use for access to the state of Redux
+    // get the data of the state
+    const error = useSelector((state) => state.error.error);
+
 
     // add new product
     const submitNewProduct = e => {
@@ -24,17 +31,21 @@ const NewProduct = () => {
 
         // form validate
         if (name.trim() === '' || price.trim() === '') {
-            console.log('error validation');
+            validationError();
             return;
         }
 
         // if pass the validation
+        validationSuccess();
+
+        // create the new product
         addProduct({
             name,
             price
         });
 
         // redirect
+        history.push('/');
     }
 
     return (
@@ -67,7 +78,7 @@ const NewProduct = () => {
 
                             <button type="submit" className="btn btn-primary font-weight-bold text-uppercase d-block w-100">Add</button>
                         </form>
-
+                        {error ? <div className="font-weight-bold alert alert-danger text-center mt-4">All fields are required</div> : null}
                     </div>
                 </div>
             </div>
