@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 // Redux
 import { createNewProductAction } from '../actions/productsActions';
+import { validateFormAction } from '../actions/validationActions';
 import { useDispatch } from 'react-redux';
 
 const NewProduct = () => {
@@ -12,16 +13,14 @@ const NewProduct = () => {
 
     // create new product
     const dispatch = useDispatch();
-    const addProduct = (product) => dispatch(createNewProductAction(product))
+    const addProduct = (product) => dispatch(createNewProductAction(product));
+    const validateForm = () => dispatch(validateFormAction());
 
     // add new product
     const submitNewProduct = e => {
         e.preventDefault();
 
-        addProduct({
-            name,
-            price
-        });
+        validateForm();
 
         // form validate
         if (name.trim() === '' || price.trim() === '') {
@@ -30,7 +29,10 @@ const NewProduct = () => {
         }
 
         // if pass the validation
-
+        addProduct({
+            name,
+            price
+        });
 
         // redirect
     }
