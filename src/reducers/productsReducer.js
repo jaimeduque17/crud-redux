@@ -7,7 +7,10 @@ import {
     DOWNLOAD_PRODUCTS_ERROR,
     DELETE_PRODUCT,
     DELETE_PRODUCT_SUCCESS,
-    DELETE_PRODUCT_ERROR
+    DELETE_PRODUCT_ERROR,
+    EDIT_PRODUCT,
+    EDIT_PRODUCT_SUCCESS,
+    EDIT_PRODUCT_ERROR
 } from '../types';
 
 // each reducer has its own state
@@ -66,6 +69,22 @@ export default function (state = initialState, action) {
                 products: state.products.filter( product => product.id !== action.payload )
             }
         case DELETE_PRODUCT_ERROR:
+            return {
+                ...state,
+                error: true
+            }
+        case EDIT_PRODUCT:
+            return {
+                ...state,
+                error: null
+            }
+        case EDIT_PRODUCT_SUCCESS:
+            return {
+                ...state,
+                error: null,
+                product: action.payload
+            }
+        case EDIT_PRODUCT_ERROR:
             return {
                 ...state,
                 error: true

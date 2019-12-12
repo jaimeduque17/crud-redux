@@ -7,7 +7,10 @@ import {
     DOWNLOAD_PRODUCTS_ERROR,
     DELETE_PRODUCT,
     DELETE_PRODUCT_SUCCESS,
-    DELETE_PRODUCT_ERROR
+    DELETE_PRODUCT_ERROR,
+    EDIT_PRODUCT,
+    EDIT_PRODUCT_SUCCESS,
+    EDIT_PRODUCT_ERROR
 } from '../types';
 
 import clientAxios from '../config/axios';
@@ -108,4 +111,30 @@ export const productDeleteSuccess = (id) => ({
 
 export const productDeleteError = () => ({
     type: DELETE_PRODUCT_ERROR
+})
+
+// get the product to edit
+export function productEditAction(id) {
+    return(dispatch) => {
+        dispatch(productAction());
+
+        // get product from the API
+        clientAxios.get(`/books/${id}`)
+        .then(response => {
+            console.log(response.data);
+            dispatch(productEditSuccess(response.data));
+        })
+        .catch(error => {
+            console.log(error);
+        })
+    }
+}
+
+export const productAction = () => ({
+    type: EDIT_PRODUCT
+})
+
+export const productEditSuccess = (product) => ({
+    type: EDIT_PRODUCT_SUCCESS,
+    payload: product
 })

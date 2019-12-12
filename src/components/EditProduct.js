@@ -1,6 +1,21 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 
-const EditProduct = () => {
+// Redux
+import {useDispatch} from 'react-redux';
+import {productEditAction} from '../actions/productsActions';
+
+const EditProduct = ({match}) => {
+
+// dispatch to execute the main action
+const dispatch = useDispatch();
+
+// get the ID to edit
+const {id} = match.params;
+
+useEffect(() => {
+    dispatch(productEditAction(id))
+}, [dispatch, id]);
+
     return (
 
         <div className="row justify-content-center mt-5">
