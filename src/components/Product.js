@@ -36,7 +36,7 @@ const Product = ({ product }) => {
                     'Your file has been deleted.',
                     'success'
                 )
-                dispatch(deleteProductAction());
+                dispatch(deleteProductAction(id));
 
             } else if (
                 /* Read more about handling dismissals below */

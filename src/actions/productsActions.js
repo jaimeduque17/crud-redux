@@ -83,9 +83,29 @@ export const downloadProductsError = () => ({
 export function deleteProductAction(id) {
     return (dispatch) => {
         dispatch(productDelete())
+
+        // delete form the API
+        clientAxios.delete(`/books/${id}`)
+            .then(response => {
+                console.log(response);
+                dispatch(productDeleteSuccess(id));
+            })
+            .catch(error => {
+                console.log(error);
+                dispatch(productDeleteError());
+            })
     }
 }
 
 export const productDelete = () => ({
     type: DELETE_PRODUCT
+})
+
+export const productDeleteSuccess = (id) => ({
+    type: DELETE_PRODUCT_SUCCESS,
+    payload: id
+})
+
+export const productDeleteError = () => ({
+    type: DELETE_PRODUCT_ERROR
 })

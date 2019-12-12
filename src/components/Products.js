@@ -26,10 +26,7 @@ const Products = () => {
 
     return (
         <Fragment>
-            {error
-                ?
-                <div className="font-weight-bold alert alert-danger text-center mt-4">There was an error</div>
-                :
+            {error ? <div className="font-weight-bold alert alert-danger text-center mt-4">There was an error</div> : null}
                 <Fragment>
                     <h2 className="text-center my-5">Products List</h2>
                     <table className="table table-striped">
@@ -51,7 +48,6 @@ const Products = () => {
                     </table>
                     {loading ? 'Loading...' : null}
                 </Fragment>
-            }
         </Fragment>
     );
 }
