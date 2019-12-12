@@ -126,6 +126,7 @@ export function productEditAction(id) {
         })
         .catch(error => {
             console.log(error);
+            dispatch(productEditError());
         })
     }
 }
@@ -137,4 +138,8 @@ export const productAction = () => ({
 export const productEditSuccess = (product) => ({
     type: EDIT_PRODUCT_SUCCESS,
     payload: product
+})
+
+export const productEditError = () => ({
+    type: EDIT_PRODUCT_ERROR
 })

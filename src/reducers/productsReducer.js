@@ -17,7 +17,8 @@ import {
 const initialState = {
     products: [],
     error: null,
-    loading: false
+    loading: false,
+    product: {}
 }
 
 export default function (state = initialState, action) {
@@ -41,21 +42,24 @@ export default function (state = initialState, action) {
         case DOWNLOAD_PRODUCTS:
             return {
                 ...state,
-                loading: true
+                loading: true,
+                product: {}
             }
         case DOWNLOAD_PRODUCTS_SUCCESS:
             return {
                 ...state,
                 products: action.payload,
                 loading: false,
-                error: false
+                error: false,
+                product: {}
             }
         case DOWNLOAD_PRODUCTS_ERROR:
             return {
                 ...state,
                 products: [],
                 loading: false,
-                error: true
+                error: true,
+                product: {}
             }
         case DELETE_PRODUCT:
             return {
