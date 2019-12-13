@@ -1,13 +1,23 @@
-import React, { useEffect, Fragment } from 'react';
+import React, { useEffect, Fragment, useRef } from 'react';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { productEditAction } from '../actions/productsActions';
+import { productEditAction, editProductAction } from '../actions/productsActions';
+import { validateFormAction, successValidation, errorValidation } from '../actions/validationActions';
 
-const EditProduct = ({ match }) => {
+const EditProduct = ({ history, match }) => {
+
+    // create refs
+    const nameRef = useRef('');
+    const priceRef = useRef('');
 
     // dispatch to execute the main action
     const dispatch = useDispatch();
+
+    const editProduct = (product) => dispatch(editProductAction(product));
+    const validateForm = () => dispatch(validateFormAction());
+    const validationSuccess = () => dispatch(successValidation());
+    const validationError = () => dispatch(errorValidation());
 
     // get the ID to edit
     const { id } = match.params;
@@ -21,7 +31,32 @@ const EditProduct = ({ match }) => {
     const error = useSelector(state => state.products.error);
 
     // when the API is charging
-    if (!product) return 'Cargando...';
+    if (!product) return 'Loading...';
+
+    const submitEditProduct = (e) => {
+        e.preventDefault();
+
+        // validate the form
+        validateForm();
+
+        if (nameRef.current.value.trim() === '' || priceRef.current.value.trim() === '') {
+            validationError();
+            return;
+        }
+
+        // there wasn't an error
+        validationSuccess();
+
+        // save changes
+        editProduct({
+            id,
+            name: nameRef.current.value,
+            price: priceRef.current.value
+        });
+
+        // redirect
+        history.push('/');
+    }
 
     return (
 
@@ -35,7 +70,9 @@ const EditProduct = ({ match }) => {
                         <div className="card">
                             <div className="card-body">
                                 <h2 className="text-center">Edit Product</h2>
-                                <form>
+                                <form
+                                    onSubmit={submitEditProduct}
+                                >
                                     <div className="form-group">
                                         <label>Title</label>
                                         <input
@@ -43,6 +80,7 @@ const EditProduct = ({ match }) => {
                                             className="form-control"
                                             placeholder="Title"
                                             defaultValue={product.name}
+                                            ref={nameRef}
                                         />
                                     </div>
                                     <div className="form-group">
@@ -52,6 +90,7 @@ const EditProduct = ({ match }) => {
                                             className="form-control"
                                             placeholder="Price"
                                             defaultValue={product.price}
+                                            ref={priceRef}
                                         />
                                     </div>
 

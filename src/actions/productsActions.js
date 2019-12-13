@@ -10,10 +10,14 @@ import {
     DELETE_PRODUCT_ERROR,
     EDIT_PRODUCT,
     EDIT_PRODUCT_SUCCESS,
-    EDIT_PRODUCT_ERROR
+    EDIT_PRODUCT_ERROR,
+    START_EDIT_PRODUCT,
+    EDITED_PRODUCT_SUCCESS,
+    EDITED_PRODUCT_ERROR
 } from '../types';
 
 import clientAxios from '../config/axios';
+import Swal from 'sweetalert2';
 
 // create a new product - main function
 export function createNewProductAction(product) {
@@ -59,11 +63,9 @@ export function getProductsAction() {
         // check the API
         clientAxios.get('/books')
             .then(response => {
-                // console.log(response);
                 dispatch(downloadProductsSuccess(response.data));
             })
             .catch(error => {
-                console.log(error);
                 dispatch(downloadProductsError());
             })
     }
@@ -90,11 +92,9 @@ export function deleteProductAction(id) {
         // delete form the API
         clientAxios.delete(`/books/${id}`)
             .then(response => {
-                console.log(response);
                 dispatch(productDeleteSuccess(id));
             })
             .catch(error => {
-                console.log(error);
                 dispatch(productDeleteError());
             })
     }
@@ -115,19 +115,18 @@ export const productDeleteError = () => ({
 
 // get the product to edit
 export function productEditAction(id) {
-    return(dispatch) => {
+    return (dispatch) => {
         dispatch(productAction());
 
         // get product from the API
         clientAxios.get(`/books/${id}`)
-        .then(response => {
-            console.log(response.data);
-            dispatch(productEditSuccess(response.data));
-        })
-        .catch(error => {
-            console.log(error);
-            dispatch(productEditError());
-        })
+            .then(response => {
+                dispatch(productEditSuccess(response.data));
+            })
+            .catch(error => {
+                console.log(error);
+                dispatch(productEditError());
+            })
     }
 }
 
@@ -142,4 +141,37 @@ export const productEditSuccess = (product) => ({
 
 export const productEditError = () => ({
     type: EDIT_PRODUCT_ERROR
+})
+
+export function editProductAction(product) {
+    return (dispatch) => {
+        dispatch(startEditProduct())
+
+        // check API
+        clientAxios.put(`/books/${product.id}`, product)
+            .then(response => {
+                dispatch(editProductSuccess(response.data));
+                Swal.fire(
+                    'Almacenado',
+                    'El producto se actualizó correctamente',
+                    'success'
+                )
+            })
+            .catch(error => {
+                dispatch(editProductError());
+            })
+    }
+}
+
+export const startEditProduct = () => ({
+    type: START_EDIT_PRODUCT
+})
+
+export const editProductSuccess = product => ({
+    type: EDITED_PRODUCT_SUCCESS,
+    payload: product
+})
+
+export const editProductError = () => ({
+    type: EDITED_PRODUCT_ERROR
 })

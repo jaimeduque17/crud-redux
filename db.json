@@ -1,19 +1,19 @@
 {
   "books": [
     {
-      "id": 2,
-      "name": "Learning React",
-      "price": 40
+      "id": 1,
+      "name": "11dda",
+      "price": "22"
     },
     {
-      "name": "Learning Redux",
+      "name": "efefe",
+      "price": "20",
+      "id": 2
+    },
+    {
+      "name": "deded",
       "price": "30",
       "id": 3
-    },
-    {
-      "name": "learning JS",
-      "price": "25",
-      "id": 4
     }
   ]
 }
